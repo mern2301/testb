@@ -1,5 +1,5 @@
 const emailValidation = require("../helpers/emailValidation");
-// const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 const UserList = require("../models/userSchema");
 
 async function loginController(req, res) {
@@ -16,13 +16,13 @@ async function loginController(req, res) {
         const existingEmail = await UserList.find({ email });
         if (existingEmail.length > 0) {
             console.log(existingEmail[0].password);
-            // bcrypt.compare(password, existingEmail[0].password).then(function (result) {
-            //     if (result) {
-            //         res.json({ success: "Login Successfully done" })
-            //     } else {
-            //         res.json({ error: " " })
-            //     }
-            // });
+            bcrypt.compare(password, existingEmail[0].password).then(function (result) {
+                if (result) {
+                    res.json({ success: "Login Successfully done" })
+                } else {
+                    res.json({ error: " " })
+                }
+            });
         }else{
             res.json({error: "Email is not matched"})
         }
