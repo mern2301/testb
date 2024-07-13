@@ -1,5 +1,5 @@
 const emailValidation = require("../helpers/emailValidation");
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 const UserList = require("../models/userSchema");
 const sendEmail = require("../helpers/sendEmail");
 const emailTemplate = require("../helpers/emailTemplate");
@@ -24,8 +24,22 @@ async function registrationController(req,res){
        return res.json({error: "Email is already in used"})
     }
     var token = jwt.sign({ email }, 'baig');
-    bcrypt.hash(password, 10, function(err, hash) {
-        const users = new UserList({
+    // bcrypt.hash(password, 10, function(err, hash) {
+    //     // const users = new UserList({
+    //     //     firstname,
+    //     //     lastname,
+    //     //     email,
+    //     //     telephone,
+    //     //     addressOne,
+    //     //     city,
+    //     //     postCode,
+    //     //     division,
+    //     //     district,
+    //     //     password: hash,
+    //     //     token: email
+    //     // })
+    // });
+      const users = new UserList({
             firstname,
             lastname,
             email,
@@ -35,16 +49,15 @@ async function registrationController(req,res){
             postCode,
             division,
             district,
-            password: hash,
+            password,
             token: email
         })
-        users.save();
-        // var token = jwt.sign({ email }, 'baig');
-        sendEmail(email, "ECOMMERCE", emailTemplate(token))
-        // res.send(users)
-        res.send({
-            success: "Registration Successfully done. please verify your email"
-        })
-    });
+    users.save();
+    // var token = jwt.sign({ email }, 'baig');
+    sendEmail(email, "ECOMMERCE", emailTemplate(token))
+    // res.send(users)
+    res.send({
+        success: "Registration Successfully done. please verify your email"
+    })
 }
 module.exports = registrationController;
