@@ -1,5 +1,5 @@
 const emailValidation = require("../helpers/emailValidation");
-const bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 const UserList = require("../models/userSchema");
 const sendEmail = require("../helpers/sendEmail");
 const emailTemplate = require("../helpers/emailTemplate");
@@ -24,7 +24,7 @@ async function registrationController(req,res){
        return res.json({error: "Email is already in used"})
     }
     var token = jwt.sign({ email }, 'baig');
-    bcrypt.hash(password, 10, function(err, hash) {
+    bcrypt.hash("B4c0/\/", 10, function(err, hash) {
         const users = new UserList({
             firstname,
             lastname,
